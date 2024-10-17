@@ -1,0 +1,5 @@
+print("===============================")
+print("Nama : Muhammad Daffa Adz Dzikraa")
+print("Kelas : 15.1b.05")
+print("Jurusan : Informatika")
+print("===============================")
