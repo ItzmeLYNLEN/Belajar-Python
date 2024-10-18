@@ -32,20 +32,20 @@ if harga > 0:
     print("No HP: " + str(no_hp))
     print("Kode Jurusan Yang Dipilih: " + jurusan)
     print("Nama Kota Tujuan: " + kota)
-    print("Harga Tiket: Rp.",harga)
+    print(f"Harga Tiket: Rp {harga:,.0f}")
     print("Jumlah Beli: ", jumlah)
     print("--------------------------------------------------------------------")
     print("                               BAYAR                                ")
     print("--------------------------------------------------------------------")
-    print("Potongan: Rp.",potongan_harga)
-    print("Total Harga: Rp.",total_harga)
+    print(f"Potongan: Rp {potongan_harga:,.0f}")
+    print(f"Total Harga: Rp {total_harga:,.0f}")
     
 
     uang_bayar = int(input("Masukan Uang Bayar : "))
     
     kembali = uang_bayar - total_harga
     if uang_bayar >= total_harga:
-        print("Uang Kembali: Rp.",str(kembali))
+        print(f"Uang Kembali: Rp {kembali:,.0f}")
     else:
         print("Uang Tidak Cukup")
 else:
