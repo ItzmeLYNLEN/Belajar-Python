@@ -7,5 +7,14 @@ for i in range(ulang):
     nama = input("Masukan Nama anda : ")
     uts = int(input("Masukan Nilai UTS anda : "))
     uas = int(input("Masukan Nilai UAS anda : "))
-    print("NIM anda adalah %s Nama anda adalah %s nilai UTS anda adalah %i nilai UAS anda adalah %i" % (nim,nama,uts,uas))
+
+    rata = (uts + uas) / 2
+    if rata > 70:
+        print("Anda Lulus")
+    else:
+        print("Anda gagal")
+        
+    
+
+    print("NIM anda adalah %s Nama anda adalah %s nilai UTS anda adalah %i nilai UAS anda adalah %i Rata - rata anda adalah %i " % (nim,nama,uts,uas,rata))
     print("-----------------------------------------------------------------------------------------\n")
