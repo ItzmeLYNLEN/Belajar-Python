@@ -87,7 +87,8 @@ def show_help():
     print("2. Transfer Uang - Mengirim uang ke rekening lain.")
     print("3. Tarik Tunai - Tarik tunai dari rekening anda.")
     print("4. Ganti PIN - Ganti PIN akun anda.")
-    print("6. Keluar - Keluar dari ATM.")
+    print("5. Riwayat - Melihat seluruh riwayat transaksi rekening anda.")
+    print("7. Keluar - Keluar dari ATM.")
     print("==============================================================")
 
 
@@ -146,6 +147,7 @@ while True:
             print("                    7). Keluar                                ")
             print("==============================================================")
             pilihan = input(" Pilih Menu (1-7): ")
+            print("")
             
             if pilihan == "1":
                 cek_saldo(nomor_rekening)
