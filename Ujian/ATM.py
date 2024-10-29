@@ -18,7 +18,7 @@ def cek_saldo(nomor_rekening):
 def tarik_tunai(nomor_rekening):
     if nomor_rekening in data_pengguna:
         print("******************************************************")
-        print("                     Pilih Nominal                     ")
+        print("                     Pilih Nominal                    ")
         print("******************************************************")
         print("1. Rp 100.000")
         print("2. Rp 200.000")
@@ -123,6 +123,10 @@ def pilih_bahasa():
         print("Pilihan tidak valid.")
 
 
+def transaksi_lagi():
+    pilihan = input("Apakah ingin melakukan transaksi lain? (y/n): ").lower()
+    return pilihan == "y"
+
 while True:
     print("==============================================================")
     print("                  Selamat Datang di ATM                      ")
@@ -148,7 +152,7 @@ while True:
             print("==============================================================")
             pilihan = input(" Pilih Menu (1-7): ")
             print("")
-            
+
             if pilihan == "1":
                 cek_saldo(nomor_rekening)
             elif pilihan == "2":
@@ -168,5 +172,12 @@ while True:
                 break
             else:
                 print(" Pilihan Tidak Valid.")
+
+
+            print("")
+            if not transaksi_lagi():
+                print("")
+                print(" Terima kasih telah menggunakan ATM kami.")
+                break
     else:
         print(" Nomor Rekening atau Pin Anda Salah.")
