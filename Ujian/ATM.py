@@ -4,6 +4,12 @@ data_pengguna = {
     "237788": {"pin": 765765, "saldo": 200000}
 }
 
+tagihan_data = {
+    "ABC123": {"nama": "Tagihan Listrik", "jumlah": 150000},
+    "DEF456": {"nama": "Tagihan Air", "jumlah": 100000},
+    "GHI789": {"nama": "Tagihan Internet", "jumlah": 200000},
+}
+
 def format_rupiah(amount):
     return "Rp {:,}".format(amount).replace(",", ".")
 
@@ -88,7 +94,8 @@ def show_help():
     print("3. Tarik Tunai - Tarik tunai dari rekening anda.")
     print("4. Ganti PIN - Ganti PIN akun anda.")
     print("5. Riwayat - Melihat seluruh riwayat transaksi rekening anda.")
-    print("7. Keluar - Keluar dari ATM.")
+    print("7. Bayar Tagihan - Bayar Tagihan Rekening Anda.")
+    print("8. Keluar - Keluar dari ATM.")
     print("==============================================================")
 
 
@@ -107,6 +114,28 @@ def riwayat(nomor_rekening):
     else:
         print(" Rekening Tidak Ditemukan.")
 
+def bayar_tagihan(nomor_rekening):
+    kode_bayar = input(" Masukkan Kode Bayar: ")
+    if kode_bayar in tagihan_data:
+        tagihan = tagihan_data[kode_bayar]
+        print("******************************************************")
+        print(f"        {tagihan['nama']}")
+        print(f"        Jumlah Tagihan: {format_rupiah(tagihan['jumlah'])}")
+        print("******************************************************")
+        konfirmasi = input(" Apakah Anda ingin membayar tagihan ini? (y/n): ").lower()
+        if konfirmasi == "y":
+            if data_pengguna[nomor_rekening]["saldo"] >= tagihan["jumlah"]:
+                data_pengguna[nomor_rekening]["saldo"] -= tagihan["jumlah"]
+                print("******************************************************")
+                print("        Pembayaran Berhasil")
+                print("        Sisa Saldo Anda: ", format_rupiah(data_pengguna[nomor_rekening]["saldo"]))
+                print("******************************************************")
+            else:
+                print(" Saldo Anda Tidak Mencukupi.")
+        else:
+            print(" Pembayaran Dibatalkan.")
+    else:
+        print(" Kode Bayar Tidak Ditemukan.")
 
 
 
@@ -142,15 +171,12 @@ while True:
             print("==============================================================")
             print("                         Pilih Menu                           ")
             print("==============================================================")
-            print("                    1). Cek Saldo                             ")
-            print("                    2). Transfer Uang                         ")
-            print("                    3). Tarik Tunai                           ")
-            print("                    4). Ganti PIN                             ")
-            print("                    5). Riwayat                               ")
-            print("                    6). Bantuan                               ")
-            print("                    7). Keluar                                ")
+            print("(1). Cek Saldo                              (5). Riwayat")
+            print("(2). Transfer Uang                          (6). Informasi")
+            print("(3). Tarik Tunai                            (7). Bayar Tagihan")
+            print("(4). Ganti PIN                              (8). Keluar")
             print("==============================================================")
-            pilihan = input(" Pilih Menu (1-7): ")
+            pilihan = input(" Pilih Menu (1-8): ")
             print("")
 
             if pilihan == "1":
@@ -168,11 +194,12 @@ while True:
             elif pilihan == "6":
                 show_help()
             elif pilihan == "7":
+                bayar_tagihan(nomor_rekening)
+            elif pilihan == "8":
                 print(" Terima kasih telah menggunakan ATM kami.")
                 break
             else:
                 print(" Pilihan Tidak Valid.")
-
 
             print("")
             if not transaksi_lagi():
