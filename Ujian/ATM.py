@@ -1,7 +1,10 @@
+from datetime import datetime
+
+
 data_pengguna = {
-    "234567": {"pin": 918918, "saldo": 1000000},
-    "992299": {"pin": 458458, "saldo": 580000},
-    "237788": {"pin": 765765, "saldo": 200000}
+    "234567": {"pin": 918918, "saldo": 1000000, "nama": "Muhammad Brimstone"},
+    "992299": {"pin": 458458, "saldo": 580000, "nama": "Slamet Kopling"},
+    "237788": {"pin": 765765, "saldo": 200000, "nama": "Samsul Arip"}
 }
 
 tagihan_data = {
@@ -13,27 +16,96 @@ tagihan_data = {
 def format_rupiah(amount):
     return "Rp {:,}".format(amount).replace(",", ".")
 
+
+
+def cetak_struk(aksi, nominal, saldo_akhir, nama_tujuan=None):
+    waktu_transaksi = datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+    
+    print("")
+    print("------------------------------------------------------")
+    print("")
+    print("                STRUK TRANSAKSI ATM                   ")
+    print("")
+    print(f" Waktu Transaksi : {waktu_transaksi}")
+    print(f" Jenis Transaksi : {aksi}")
+    print(f" Nominal         : {format_rupiah(nominal)}")
+    print(f" Saldo Akhir     : {format_rupiah(saldo_akhir)}")
+    print("")
+    print("------------------------------------------------------")
+    print("")
+
+
+
+
 def cek_saldo(nomor_rekening):
     if nomor_rekening in data_pengguna:
+        print("")
         print("******************************************************")
+        print("")
         print("        Saldo Anda: ", format_rupiah(data_pengguna[nomor_rekening]["saldo"]))
+        print("")
         print("******************************************************")
+        print("")
     else:
         print(" Rekening Tidak Ditemukan.")
+
+
+
+def transfer(nomor_rekening_pengirim, nomor_rekening_tujuan, jumlah):
+    
+    if nomor_rekening_pengirim in data_pengguna and nomor_rekening_tujuan in data_pengguna:
+
+        nama_tujuan = data_pengguna[nomor_rekening_tujuan]["nama"]
+        print("")
+        print(f"         Nama Rekening Tujuan: {nama_tujuan}")
+        print("")
+        
+        
+        konfirmasi = input(" Apakah Anda ingin melanjutkan transfer ini? (y/n): ").lower()
+        if konfirmasi == "y":
+            
+            if data_pengguna[nomor_rekening_pengirim]["saldo"] >= jumlah:
+                data_pengguna[nomor_rekening_pengirim]["saldo"] -= jumlah
+                data_pengguna[nomor_rekening_tujuan]["saldo"] += jumlah
+                print("")
+                print("******************************************************")
+                print("")
+                print("        Transfer Berhasil")
+                print("        Sisa Saldo Anda : ", format_rupiah(data_pengguna[nomor_rekening_pengirim]["saldo"]))
+                print("")
+                print("******************************************************")
+                print("")
+                
+               
+                if input(" Apakah Anda ingin mencetak struk? (y/n): ").lower() == "y":
+                    cetak_struk("Transfer", jumlah, data_pengguna[nomor_rekening_pengirim]["saldo"])
+            else:
+                print(" Saldo Anda Tidak Mencukupi.")
+        else:
+            print(" Transfer Dibatalkan.")
+    else:
+        print(" Rekening Tidak Ditemukan.")
+
+
+
+
 
 def tarik_tunai(nomor_rekening):
     if nomor_rekening in data_pengguna:
         print("******************************************************")
+        print("")
         print("                     Pilih Nominal                    ")
+        print("")
         print("******************************************************")
+        print("")
         print("1. Rp 100.000")
         print("2. Rp 200.000")
         print("3. Rp 500.000")
         print("4. Rp 1.000.000")
         print("5. Rp 2.000.000")
-        print("6. Lainnya")
-        print("******************************************************")
-        
+        print("6. Nominal Lainnya")
+        print("")
+
         pilihan_nominal = input(" Pilih Nominal (1-5): ")
         if pilihan_nominal == "1":
             jumlah = 100000
@@ -49,33 +121,29 @@ def tarik_tunai(nomor_rekening):
             jumlah = int(input(" Masukkan Jumlah Penarikan: "))
         else:
             print(" Pilihan Tidak Valid.")
-            
+            return
 
         if data_pengguna[nomor_rekening]["saldo"] >= jumlah:
             data_pengguna[nomor_rekening]["saldo"] -= jumlah
+            print("")
             print("******************************************************")
+            print("")
             print("        Penarikan Berhasil")
             print("        Sisa Saldo Anda: ", format_rupiah(data_pengguna[nomor_rekening]["saldo"]))
+            print("")
             print("******************************************************")
+            print("")
+            
+            
+            if input(" Apakah Anda ingin mencetak struk? (y/n): ").lower() == "y":
+                cetak_struk("Tarik Tunai", jumlah, data_pengguna[nomor_rekening]["saldo"])
         else:
             print(" Saldo Anda Tidak Mencukupi.")
     else:
         print(" Rekening Tidak Ditemukan.")
 
 
-def transfer(nomor_rekening_pengirim, nomor_rekening_tujuan, jumlah):
-    if nomor_rekening_pengirim in data_pengguna and nomor_rekening_tujuan in data_pengguna:
-        if data_pengguna[nomor_rekening_pengirim]["saldo"] >= jumlah:
-            data_pengguna[nomor_rekening_pengirim]["saldo"] -= jumlah
-            data_pengguna[nomor_rekening_tujuan]["saldo"] += jumlah
-            print("******************************************************")
-            print("        Transfer Berhasil")
-            print("        Sisa Saldo Anda : ", format_rupiah(data_pengguna[nomor_rekening_pengirim]["saldo"]))
-            print("******************************************************")
-        else:
-            print(" Saldo Anda Tidak Mencukupi.")
-    else:
-        print(" Rekening Tidak Ditemukan.")
+
 
 def ganti_pin(nomor_rekening):
     if nomor_rekening in data_pengguna:
@@ -85,18 +153,7 @@ def ganti_pin(nomor_rekening):
     else:
         print(" Rekening Tidak Ditemukan.")
 
-def show_help():
-    print("==============================================================")
-    print("                    Menu Bantuan                              ")
-    print("==============================================================")
-    print("1. Cek Saldo - Cek rekening anda.")
-    print("2. Transfer Uang - Mengirim uang ke rekening lain.")
-    print("3. Tarik Tunai - Tarik tunai dari rekening anda.")
-    print("4. Ganti PIN - Ganti PIN akun anda.")
-    print("5. Riwayat - Melihat seluruh riwayat transaksi rekening anda.")
-    print("7. Bayar Tagihan - Bayar Tagihan Rekening Anda.")
-    print("8. Keluar - Keluar dari ATM.")
-    print("==============================================================")
+
 
 
 def riwayat(nomor_rekening):
@@ -107,35 +164,76 @@ def riwayat(nomor_rekening):
             "21/10/2024 - Setor Tunai Rp 2.000.000",
         ]
         print("******************************************************")
+        print("")
         print("                   Riwayat")
         for transaction in transactions:
             print(transaction)
+        print("")
         print("******************************************************")
     else:
         print(" Rekening Tidak Ditemukan.")
+
+
+
+
 
 def bayar_tagihan(nomor_rekening):
     kode_bayar = input(" Masukkan Kode Bayar: ")
     if kode_bayar in tagihan_data:
         tagihan = tagihan_data[kode_bayar]
+        print("")
         print("******************************************************")
+        print("")
         print(f"        {tagihan['nama']}")
         print(f"        Jumlah Tagihan: {format_rupiah(tagihan['jumlah'])}")
+        print("")
         print("******************************************************")
+        print("")
         konfirmasi = input(" Apakah Anda ingin membayar tagihan ini? (y/n): ").lower()
         if konfirmasi == "y":
             if data_pengguna[nomor_rekening]["saldo"] >= tagihan["jumlah"]:
                 data_pengguna[nomor_rekening]["saldo"] -= tagihan["jumlah"]
+                print("")
                 print("******************************************************")
+                print("")
                 print("        Pembayaran Berhasil")
                 print("        Sisa Saldo Anda: ", format_rupiah(data_pengguna[nomor_rekening]["saldo"]))
+                print("")
                 print("******************************************************")
+                print("")
+                
+                
+                if input(" Apakah Anda ingin mencetak struk? (y/n): ").lower() == "y":
+                    cetak_struk("Bayar Tagihan", tagihan["jumlah"], data_pengguna[nomor_rekening]["saldo"])
             else:
                 print(" Saldo Anda Tidak Mencukupi.")
         else:
             print(" Pembayaran Dibatalkan.")
     else:
         print(" Kode Bayar Tidak Ditemukan.")
+
+
+
+
+
+def show_help():
+    print("")
+    print("==============================================================")
+    print("                    Menu Bantuan                              ")
+    print("==============================================================")
+    print("")
+    print("1. Cek Saldo - Cek rekening anda.")
+    print("2. Transfer Uang - Mengirim uang ke rekening lain.")
+    print("3. Tarik Tunai - Tarik tunai dari rekening anda.")
+    print("4. Ganti PIN - Ganti PIN akun anda.")
+    print("5. Riwayat - Melihat seluruh riwayat transaksi rekening anda.")
+    print("7. Bayar Tagihan - Bayar Tagihan Rekening Anda.")
+    print("8. Keluar - Keluar dari ATM.")
+    print("")
+    print("==============================================================")
+    print("")
+
+
 
 
 
@@ -156,10 +254,15 @@ def transaksi_lagi():
     pilihan = input("Apakah ingin melakukan transaksi lain? (y/n): ").lower()
     return pilihan == "y"
 
+
+
+
+
 while True:
     print("==============================================================")
     print("                  Selamat Datang di ATM                      ")
     print("==============================================================")
+    print("")
     pilih_bahasa()
     nomor_rekening = input(" Masukkan Nomor Rekening: ")
     pin = int(input(" Masukkan Pin Anda: "))
@@ -171,10 +274,12 @@ while True:
             print("==============================================================")
             print("                         Pilih Menu                           ")
             print("==============================================================")
+            print("")
             print("(1). Cek Saldo                              (5). Riwayat")
             print("(2). Transfer Uang                          (6). Informasi")
             print("(3). Tarik Tunai                            (7). Bayar Tagihan")
             print("(4). Ganti PIN                              (8). Keluar")
+            print("")
             print("==============================================================")
             pilihan = input(" Pilih Menu (1-8): ")
             print("")
