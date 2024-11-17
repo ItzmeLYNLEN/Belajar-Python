@@ -2,15 +2,36 @@ from datetime import datetime
 
 
 data_pengguna = {
-    "234567": {"pin": 918918, "saldo": 1000000, "nama": "Muhammad Brimstone"},
-    "992299": {"pin": 458458, "saldo": 580000, "nama": "Slamet Kopling"},
-    "237788": {"pin": 765765, "saldo": 200000, "nama": "Samsul Arip"}
+    "234567": {
+            "pin": 918918, 
+            "saldo": 1000000, 
+            "nama": "Muhammad Brimstone"
+        },
+    "992299": {
+            "pin": 458458, 
+            "saldo": 580000, 
+            "nama": "Slamet Kopling"
+        },
+    "237788": {
+            "pin": 765765, 
+            "saldo": 200000, 
+            "nama": "Samsul Arip"
+        }
 }
 
 tagihan_data = {
-    "ABC123": {"nama": "PLN", "jumlah": 150000},
-    "DEF456": {"nama": "Netlix", "jumlah": 100000},
-    "GHI789": {"nama": "Indihome", "jumlah": 200000},
+    "ABC123": {
+            "nama": "PLN", 
+            "jumlah": 150000
+        },
+    "DEF456": {
+            "nama": "Netlix", 
+            "jumlah": 100000
+        },
+    "GHI789": {
+            "nama": "Indihome", 
+            "jumlah": 200000
+        },
 }
 
 bahasa = {}
@@ -256,6 +277,11 @@ def set_bahasa():
     print("2. English")
     pilihan_bahasa = input("Pilih (1/2): ")
 
+    if pilihan_bahasa != "1" and pilihan_bahasa != "2":
+        pilihan_bahasa = "1"
+        print("")
+        print("Pilihan tidak valid. Default ke Bahasa Indonesia.")
+
     if pilihan_bahasa == "1":
         bahasa = {
             "bahasa_dipilih": "Bahasa Indonesia dipilih.",
@@ -365,7 +391,7 @@ def set_bahasa():
             "trmksh_menggunakan_atm": "Thank you For Using BSS ATM"        
         }
     else:
-        print("Pilihan tidak valid. Default ke Bahasa Indonesia.")
+        print("Pilihan tidak valid.")
         set_bahasa()
 
 def transaksi_lagi():
@@ -382,8 +408,14 @@ def main():
     print("")
     
     nomor_rekening = input(bahasa["masukkan_rekening"] + " ")
-    pin = int(input(bahasa["masukkan_pin"] + " "))
+    pin = input(bahasa["masukkan_pin"] + " ")
     print("")
+
+    if nomor_rekening == "" or pin == "" or not pin.isnumeric():
+        print(bahasa["login_gagal"])
+        return False
+    else:
+        pin = int(pin)
     
     if nomor_rekening in data_pengguna and data_pengguna[nomor_rekening]["pin"] == pin:
         print(bahasa["login_sukses"])
