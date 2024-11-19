@@ -54,7 +54,9 @@ def cek_saldo(nomor_rekening):
         print("******************************************************")
         print("")
     else:
-        print(bahasa['rekening_tidak_ada'])
+        print("")
+        print("\033[31m" + bahasa['rekening_tidak_ada'] + "\033[0m")
+        print("")
 
 
 
@@ -77,7 +79,7 @@ def transfer(nomor_rekening_pengirim, nomor_rekening_tujuan, jumlah):
                 print("")
                 print("******************************************************")
                 print("")
-                print(f"         {bahasa['Transfer_Berhasil']}")
+                print("\033[32m" +f"         {bahasa['Transfer_Berhasil']}" + "\033[0m" )
                 print(f"         {bahasa['sisa_saldo_anda']}", format_rupiah(data_pengguna[nomor_rekening_pengirim]["saldo"]))
                 print("")
                 print("******************************************************")
@@ -88,11 +90,16 @@ def transfer(nomor_rekening_pengirim, nomor_rekening_tujuan, jumlah):
                     cetak_struk(bahasa["transfer"], jumlah, data_pengguna[nomor_rekening_pengirim]["saldo"])
 
             else:
-                print(bahasa["saldo_kurang"])
+                print("")
+                print("\033[31m" + bahasa["saldo_kurang"] + "\033[0m")
         else:
-            print(" Transfer Dibatalkan.")
+            print("")
+            print("\033[31m" + bahasa['transfer_batal'] + "\033[0m")
+            print("")
     else:
-        print(bahasa['rekening_tidak_ada'])
+        print("")
+        print("\033[31m" + bahasa['rekening_tidak_ada'] + "\033[0m")
+        print("")
 
 
 
@@ -128,7 +135,9 @@ def tarik_tunai(nomor_rekening):
         elif pilihan_nominal == "6":
             jumlah = int(input(bahasa["masukan_jumlah_tarik"]))
         else:
-            print(bahasa["pilihan_valid"])
+            print("")
+            print("\033[31m" + bahasa["pilihan_valid"] + "\033[0m" )
+            print("")
             return
 
         if data_pengguna[nomor_rekening]["saldo"] >= jumlah:
@@ -136,7 +145,7 @@ def tarik_tunai(nomor_rekening):
             print("")
             print("******************************************************")
             print("")
-            print(f"        {bahasa['penarikan_berhasil']}")
+            print("\033[32m" + f"        {bahasa['penarikan_berhasil']}" + "\033[0m")
             print(f"        {bahasa['sisa_saldo_anda']}", format_rupiah(data_pengguna[nomor_rekening]["saldo"]))
             print("")
             print("******************************************************")
@@ -147,9 +156,13 @@ def tarik_tunai(nomor_rekening):
                 cetak_struk(bahasa["tarik_tunai"], jumlah, data_pengguna[nomor_rekening]["saldo"])
 
         else:
-            print(bahasa["saldo_kurang"])
+            print("")
+            print("\033[31m" + bahasa["saldo_kurang"] + "\033[0m" )
+            print("")
     else:
-        print(bahasa["rekening_tidak_ada"])
+        print("")
+        print("\033[31m" + bahasa["rekening_tidak_ada"] + "\033[0m")
+        print("")
 
 
 
@@ -159,10 +172,12 @@ def ganti_pin(nomor_rekening):
         pin_baru = int(input(bahasa["masukan_pin_baru"]))
         data_pengguna[nomor_rekening]["pin"] = pin_baru
         print("")
-        print(bahasa["pin_berhasil_diubah"])
+        print("\033[32m" + bahasa["pin_berhasil_diubah"] + "\033[0m")
         print("")
     else:
-        print(bahasa["rekening_tidak_ada"])
+        print("")
+        print("\033[31m" + bahasa["rekening_tidak_ada"] + "\033[0m")
+        print("")
 
 
 
@@ -182,7 +197,9 @@ def riwayat(nomor_rekening):
         print("")
         print("******************************************************")
     else:
-        print(bahasa["rekening_tidak_ada"])
+        print("")
+        print("\033[31m" + bahasa["rekening_tidak_ada"] + "\033[0m")
+        print("")
 
 
 
@@ -207,7 +224,7 @@ def bayar_tagihan(nomor_rekening):
                 print("")
                 print("******************************************************")
                 print("")
-                print(f"        {bahasa['pembayaran_berhasil']}")
+                print("\033[32m" + f"        {bahasa['pembayaran_berhasil']}" "\033[0m")
                 print(f"        {bahasa['sisa_saldo']}", format_rupiah(data_pengguna[nomor_rekening]["saldo"]))
                 print("")
                 print("******************************************************")
@@ -218,12 +235,17 @@ def bayar_tagihan(nomor_rekening):
                     cetak_struk(bahasa["bayar_tagihan"], tagihan["jumlah"], data_pengguna[nomor_rekening]["saldo"])
 
             else:
-                print(bahasa["saldo_kurang"])
+                print("")
+                print("\033[31m" + bahasa["saldo_kurang"] + "\033[0m")
+                print("")
         else:
-            print(bahasa["pembayaran_batal"])
+            print("")
+            print("\033[31m" + bahasa["pembayaran_batal"] + "\033[0m")
+            print("")
     else:
-        print(bahasa["kode_bayar_tidak_ada"])
-
+        print("")
+        print("\033[31m" + bahasa["kode_bayar_tidak_ada"] + "\033[0m")
+        print("")
 
 
 
@@ -254,7 +276,7 @@ def set_bahasa():
     print("Pilih Bahasa:")
     print("1. Bahasa Indonesia")
     print("2. English")
-    pilihan_bahasa = input("Pilih (1/2): ")
+    pilihan_bahasa = input("Pilih (1/2): ")
 
     if pilihan_bahasa == "1":
         bahasa = {
@@ -365,7 +387,9 @@ def set_bahasa():
             "trmksh_menggunakan_atm": "Thank you For Using BSS ATM"        
         }
     else:
-        print("Pilihan tidak valid. Default ke Bahasa Indonesia.")
+        print("")
+        print("\033[31m" + "Pilihan tidak valid. Default ke Bahasa Indonesia." + "\033[0m")
+        print("")
         set_bahasa()
 
 def transaksi_lagi():
@@ -378,7 +402,7 @@ def main():
     print("==============================================================")
     set_bahasa()
     print("")
-    print(bahasa["bahasa_dipilih"])
+    print("\033[32m" + bahasa["bahasa_dipilih"] + "\033[0m")
     print("")
     
     nomor_rekening = input(bahasa["masukkan_rekening"] + " ")
@@ -386,7 +410,7 @@ def main():
     print("")
     
     if nomor_rekening in data_pengguna and data_pengguna[nomor_rekening]["pin"] == pin:
-        print(bahasa["login_sukses"])
+        print("\033[32m" + bahasa["login_sukses"] + "\033[0m")
         while True:
             print("")
             print("==============================================================")
@@ -420,12 +444,14 @@ def main():
                 print(bahasa["trmksh_menggunakan_atm"])
                 break
             else:
-                print(bahasa["pilihan_valid"])
+                print("\033[31m" + bahasa["pilihan_valid"] + "\033[0m")
 
             if not transaksi_lagi():
                 print(bahasa["trmksh_menggunakan_atm"])
                 break
     else:
-        print(bahasa["login_gagal"])
+        print("\033[31m" + bahasa["login_gagal"] + "\033[0m")
 
-main()
+while True:
+    main()
+    print("")  
