@@ -406,8 +406,14 @@ def main():
     print("")
     
     nomor_rekening = input(bahasa["masukkan_rekening"] + " ")
-    pin = int(input(bahasa["masukkan_pin"] + " "))
+    pin = input(bahasa["masukkan_pin"] + " ")
     print("")
+
+    if nomor_rekening == "" or pin == "" or not pin.isnumeric():
+        print("\033[31m" + bahasa["login_gagal"] + "\033[0m")
+        return False
+    else:
+        pin = int(pin)
     
     if nomor_rekening in data_pengguna and data_pengguna[nomor_rekening]["pin"] == pin:
         print("\033[32m" + bahasa["login_sukses"] + "\033[0m")
